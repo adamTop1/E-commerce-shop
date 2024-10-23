@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import './globals.css'
 import { Poppins } from 'next/font/google'
-import Navigation from '@/containers/Nav/Navigation'
+import Navigation from '@/components/Nav/Navigation'
 
 export const metadata: Metadata = {
 	title: 'FreshShop',
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 const poppins = Poppins({
 	subsets: ['latin'],
 	variable: '--font-poppins',
-	weight: ['400', '500', '600', '700'],
+	weight: [ '600', '700'],
 })
 
 export default function RootLayout({
@@ -21,7 +21,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${poppins.variable} `}>
+			<body className={`${poppins.variable} text-zinc-800 `}>
 				<div className='w-full h-full'>
 					<Navigation />
 					{children}

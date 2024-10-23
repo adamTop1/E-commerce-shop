@@ -1,6 +1,9 @@
+import Header from '@/components/Main/Header'
 
 export default function Home() {
 	return (
-		<p>home</p>
+		<main className='bg-stone-50'>
+			<Header />
+		</main>
 	)
 }
