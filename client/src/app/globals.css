@@ -2,20 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+html {
+    scroll-behavior: smooth;
 }
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+ 
+a {
+    text-decoration: none;
 }
-
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+ 
+img {
+    height: auto;
+}
+ 
+input,
+button,
+textarea,
+select {
+    font-family: inherit;
+}
+ 
+button {
+    border: none;
+    cursor: pointer;
+}
+ 
+ 
+textarea {
+    resize: vertical;
+}
+ 
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
 }
