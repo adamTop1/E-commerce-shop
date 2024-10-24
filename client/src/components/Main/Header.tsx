@@ -26,7 +26,7 @@ const Header = () => {
 					</div>
 					<div className='h-[60px] w-[2px]  bg-zinc-500'></div>
 					<div className='flex flex-col items-center px-4'>
-						<span className='text-xl font-bold'>98%</span>
+						<span className='text-xl font-bold'>99%</span>
 						<p>Satisfied customers </p>
 					</div>
 				</div>
