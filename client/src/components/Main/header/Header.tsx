@@ -1,5 +1,6 @@
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import Link from 'next/link'
 
 const Header = () => {
 	return (
@@ -30,7 +31,7 @@ const Header = () => {
 						<p>Satisfied customers </p>
 					</div>
 				</div>
-				<Button className='py-6 mt-12 text-xl bg-green-700 px-14 rounded-3xl'>Find your food</Button>
+				<Button className='py-6 mt-12 text-xl bg-green-700 px-14 rounded-3xl'><Link href='/shop'>Find your food</Link></Button>
 			</div>
 			<div className='flex items-center justify-center'>
 				<Image src='/vegetables-main.svg' alt='vegetables' width={600} height={600} />
