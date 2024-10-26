@@ -1,4 +1,4 @@
-import Header from '@/components/Main/Header'
+import Header from "@/components/Main/header/Header"
 
 export default function Home() {
 	return (

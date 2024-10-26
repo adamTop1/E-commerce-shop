@@ -1,9 +1,9 @@
 import Image from 'next/image'
-import { Button } from '../ui/button'
+import { Button } from '@/components/ui/button'
 
 const Header = () => {
 	return (
-		<div className='grid min-h-screen grid-cols-2 mx-20'>
+		<div className='grid min-h-screen grid-cols-2 max-w-[1800px] mx-auto'>
 			<div className='flex flex-col items-start justify-start gap-10 ml-20'>
 				<h3 className='text-6xl font-bold mt-36'>
 					Bring fresh food to <br />

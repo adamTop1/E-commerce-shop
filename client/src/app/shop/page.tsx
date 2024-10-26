@@ -4,9 +4,9 @@ import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 
-const Shop = () => {
+const page = () => {
 	return (
-		<div className='grid grid-cols-4 gap-8 mx-28 my-28'>
+		<div className='grid grid-cols-4 gap-8 my-28 max-w-[1800px] mx-auto'>
 			<Card className='overflow-hidden'>
 				<div className='flex items-center justify-center rounded bg-slate-50'>
 					<Image src='/vegetables-main.svg' alt='vegetables' width={300} height={300} />
@@ -87,4 +87,4 @@ const Shop = () => {
 	)
 }
 
-export default Shop
+export default page

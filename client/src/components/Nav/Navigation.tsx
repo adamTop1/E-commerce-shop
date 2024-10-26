@@ -3,7 +3,7 @@ import Link from 'next/link'
 const Navigation = () => {
 	return (
 		<div className='flex items-center justify-between h-24 mx-16'>
-			<h1 className='text-3xl font-medium text-green-600'>FreshShop</h1>
+			<h1 className='text-3xl font-medium text-green-600'><Link href='/'>FreshShop</Link></h1>
 			<ul className='flex gap-20'>
 				<li>
 					<Link href='/shop' className='px-6 py-2'>
