@@ -5,9 +5,9 @@ const authRouter = Router()
 
 authRouter.get('/auth', getUser)
 
-authRouter.post('/auth', createUser)
+authRouter.post('/auth/create', createUser)
 
-authRouter.post('/auth', loginUser)
+authRouter.post('/auth/login', loginUser)
 
 authRouter.delete('/auth', deleteUser)
 

@@ -1,47 +1,58 @@
 import prisma from '../db'
+import bcrypt from 'bcrypt'
+import jwt from 'jsonwebtoken'
+import { Request, Response } from 'express'
+import { userRegistrationSchema } from '../utils/zodSchema'
 
-export const createUser = async (req, res) => {
+export const createUser = async (req: Request, res: Response) => {
+	const { email, password } = userRegistrationSchema.parse(req.body)
 
-    // validation 
+	const hashedPassword = await bcrypt.hash(password, 10)
 
-    // check if email exists
-
-    // hash password
-
-    const user = await prisma.user.create({
-        data: {
-            email: req.body.email,
-            password: req.body.password,
-        },
-    })
-    res.json(user)
+	const user = await prisma.user.create({
+		data: {
+			email: email,
+			password: hashedPassword,
+		},
+	})
+	res.json(user)
 }
 
-export const loginUser = async (req, res) => {
-    const user = await prisma.user.findFirst({
-        where: {
-            email: req.body.email,
-            password: req.body.password,
-        },
-    })
-    res.json(user)
+export const loginUser = async (req: Request, res: Response) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			email: req.body.email,
+		},
+	})
+
+	let isPasswordValid
+	let token = null
+
+	if (user !== null) {
+		isPasswordValid = await bcrypt.compare(req.body.password, user.password)
+	}
+
+	if (isPasswordValid && user) {
+		token = jwt.sign({ id: user.id }, process.env.SECRET as string)
+	}
+
+	res.status(200).json({ token })
 }
 
-export const getUser = async (req, res) => {
-    const user = await prisma.user.findUnique({
-        where: {
-            id: req.body.id
-        },
-    })
-    res.json(user)
+export const getUser = async (req: Request, res: Response) => {
+	const user = await prisma.user.findUnique({
+		where: {
+			id: req.body.id,
+		},
+	})
+	res.json(user)
 }
 
-export const deleteUser = async (req, res) => {
-    const user = await prisma.user.delete({
-        where: {
-            id: req.body.id
-        },
-    })
-    res.json(user)
+export const deleteUser = async (req: Request, res: Response) => {
+	const user = await prisma.user.delete({
+		where: {
+			id: req.body.id,
+		},
+	})
+	res.json(user)
 }
-
