@@ -1,12 +1,12 @@
 import { Router } from 'express'
 import { createNewProduct, getAllProducts, deleteProduct } from '../controllers/shop'
 
-const router = Router()
+const shopRouter = Router()
 
-router.get('/shop', getAllProducts)
+shopRouter.get('/shop', getAllProducts)
 
-router.post('/shop', createNewProduct)
+shopRouter.post('/shop', createNewProduct)
 
-router.delete('/shop', deleteProduct)
+shopRouter.delete('/shop', deleteProduct)
 
-export default router
+export default shopRouter
