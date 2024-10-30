@@ -6,27 +6,39 @@ import { z } from 'zod'
 import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { useMutation } from '@tanstack/react-query'
+import { addProduct } from '@/api/product'
+import { productType } from '@/types/product'
 
 const AddProductForm = () => {
+	const { mutate, isPending } = useMutation({
+		mutationFn: ({ name, price, image }: productType) => addProduct({ name, price, image }),
+	})
+
 	const formSchema = z.object({
-		username: z.string().min(2, {
-			message: 'Username must be at least 2 characters.',
+		name: z.string().min(2, {
+			message: 'Name must be at least 2 characters.',
 		}),
-		price: z.string().min(1, { message: 'Price must be at least 1.' }),
+		price: z.string(),
 		image: z.string(),
 	})
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			username: '',
+			name: '',
 			price: '',
 			image: '',
 		},
 	})
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		console.log(values)
+        const priceToNumber = parseFloat(values.price)
+		mutate({ name: values.name, price: priceToNumber, image: values.image })
+	}
+
+	if (isPending) {
+		return <div>Loading...</div>
 	}
 
 	return (
@@ -34,7 +46,7 @@ const AddProductForm = () => {
 			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
 				<FormField
 					control={form.control}
-					name='username'
+					name='name'
 					render={({ field }) => (
 						<FormItem>
 							<FormLabel>Name</FormLabel>

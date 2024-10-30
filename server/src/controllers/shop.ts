@@ -10,6 +10,7 @@ export const createNewProduct = async (req, res) => {
 		data: {
 			name: req.body.name,
 			price: req.body.price,
+			image: req.body.image,
 		},
 	})
 	res.json(product)

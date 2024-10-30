@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Navigation from '@/components/Nav/Navigation'
+import { ReactQueryProvider } from '@/components/Provider/QueryProvider'
 
 export const metadata: Metadata = {
 	title: 'FreshShop',
@@ -18,10 +19,12 @@ export default function RootLayout({
 	return (
 		<html lang='en'>
 			<body className={`${inter.className} text-zinc-800 `}>
-				<div className='w-full h-full'>
-					<Navigation />
-					{children}
-				</div>
+				<ReactQueryProvider>
+					<div className='w-full h-full'>
+						<Navigation />
+						{children}
+					</div>
+				</ReactQueryProvider>
 			</body>
 		</html>
 	)
