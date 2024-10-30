@@ -5,13 +5,14 @@ import { Request, Response } from 'express'
 import { userRegistrationSchema } from '../utils/zodSchema'
 
 export const createUser = async (req: Request, res: Response) => {
-	const { email, password } = userRegistrationSchema.parse(req.body)
 
-	const hashedPassword = await bcrypt.hash(password, 10)
+	const validate = userRegistrationSchema.parse(req.body)
+
+	const hashedPassword = await bcrypt.hash(validate.password, 10)
 
 	const user = await prisma.user.create({
 		data: {
-			email: email,
+			email: req.body.email,
 			password: hashedPassword,
 		},
 	})
