@@ -1,90 +1,22 @@
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import React from 'react'
-import Image from 'next/image'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+'use client'
 
-const page = () => {
+import { useQuery } from '@tanstack/react-query'
+import { getProducts } from '../api/product'
+import ProductCard from '@/components/Main/shop/ProductCard'
+
+const Shop = () => {
+	const { data } = useQuery({
+		queryFn: () => getProducts(),
+		queryKey: ['products'],
+	})
+
 	return (
-		<div className='grid grid-cols-4 gap-8 my-28 max-w-[1800px] mx-auto'>
-			<Card className='overflow-hidden'>
-				<div className='flex items-center justify-center rounded bg-slate-50'>
-					<Image src='/vegetables-main.svg' alt='vegetables' width={300} height={300} />
-				</div>
-				<CardHeader>
-					<CardTitle>Tomato</CardTitle>
-					<CardDescription>Card Description</CardDescription>
-				</CardHeader>
-				<CardContent>
-				<p className='font-bold'>4.99$ / kg</p>
-				</CardContent>
-				<CardFooter className='flex justify-between'>
-					<div className='flex items-center gap-1'>
-						<Input type='number' placeholder='1' className='w-1/4' />
-						<p>kg</p>
-					</div>
-					<Button>Add to cart</Button>
-				</CardFooter>
-			</Card>
-			<Card className='overflow-hidden'>
-				<div className='flex items-center justify-center rounded bg-slate-50'>
-					<Image src='/vegetables-main.svg' alt='vegetables' width={300} height={300} />
-				</div>
-				<CardHeader>
-					<CardTitle>Tomato</CardTitle>
-					<CardDescription>Card Description</CardDescription>
-				</CardHeader>
-				<CardContent>
-				<p className='font-bold'>4.99$ / kg</p>
-				</CardContent>
-				<CardFooter className='flex justify-between'>
-					<div className='flex items-center gap-1'>
-						<Input type='number' placeholder='1' className='w-1/4' />
-						<p>kg</p>
-					</div>
-					<Button>Add to cart</Button>
-				</CardFooter>
-			</Card>
-			<Card className='overflow-hidden'>
-				<div className='flex items-center justify-center rounded bg-slate-50'>
-					<Image src='/vegetables-main.svg' alt='vegetables' width={300} height={300} />
-				</div>
-				<CardHeader>
-					<CardTitle>Tomato</CardTitle>
-					<CardDescription>Card Description</CardDescription>
-				</CardHeader>
-				<CardContent>
-				<p className='font-bold'>4.99$ / kg</p>
-				</CardContent>
-				<CardFooter className='flex justify-between'>
-					<div className='flex items-center gap-1'>
-						<Input type='number' placeholder='1' className='w-1/4' />
-						<p>kg</p>
-					</div>
-					<Button>Add to cart</Button>
-				</CardFooter>
-			</Card>
-			<Card className='overflow-hidden'>
-				<div className='flex items-center justify-center rounded bg-slate-50'>
-					<Image src='/vegetables-main.svg' alt='vegetables' width={300} height={300} />
-				</div>
-				<CardHeader>
-					<CardTitle>Tomato</CardTitle>
-					<CardDescription>Card Description</CardDescription>
-				</CardHeader>
-				<CardContent>
-					<p className='font-bold'>4.99$ / kg</p>
-				</CardContent>
-				<CardFooter className='flex justify-between'>
-					<div className='flex items-center gap-1'>
-						<Input type='number' placeholder='1' className='w-1/4' />
-						<p>kg</p>
-					</div>
-					<Button>Add to cart</Button>
-				</CardFooter>
-			</Card>
+		<div className='grid gap-4 mx-6 grid-cols-2 xl:mx-10 my-10 min-[1200px]:grid-cols-3 min-[1600px]:grid-cols-4 max-md:flex max-md:flex-col'>
+			{data?.data.map(product => (
+				<ProductCard key={product.id} title={product.name} price={product.price} />
+			))}
 		</div>
 	)
 }
 
-export default page
+export default Shop

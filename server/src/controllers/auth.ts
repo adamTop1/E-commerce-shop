@@ -5,7 +5,6 @@ import { Request, Response } from 'express'
 import { userRegistrationSchema } from '../utils/zodSchema'
 
 export const createUser = async (req: Request, res: Response) => {
-
 	const validate = userRegistrationSchema.parse(req.body)
 
 	const hashedPassword = await bcrypt.hash(validate.password, 10)
@@ -35,6 +34,7 @@ export const loginUser = async (req: Request, res: Response) => {
 
 	if (isPasswordValid && user) {
 		token = jwt.sign({ id: user.id }, process.env.SECRET as string)
+		
 	}
 
 	res.status(200).json({ token })

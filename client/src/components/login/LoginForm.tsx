@@ -7,34 +7,32 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useMutation } from '@tanstack/react-query'
-import { addProduct } from '@/app/api/product'
-import { productType } from '@/types/product'
+import { loginUser } from '@/app/api/user'
+import { userType } from '@/types/user'
 
-const AddProductForm = () => {
+const LoginForm = () => {
 	const { mutate, isPending } = useMutation({
-		mutationFn: ({ name, price, image }: productType) => addProduct({ name, price, image }),
+		mutationFn: ({ email, password }: userType) => loginUser({ email, password }),
 	})
 
 	const formSchema = z.object({
-		name: z.string().min(2, {
-			message: 'Name must be at least 2 characters.',
+		email: z.string().email(),
+		password: z.string().min(6, {
+			message: 'Password must be at least 6 characters.',
 		}),
-		price: z.string(),
-		image: z.string(),
 	})
 
 	const form = useForm<z.infer<typeof formSchema>>({
 		resolver: zodResolver(formSchema),
 		defaultValues: {
-			name: '',
-			price: '',
-			image: '',
+			email: '',
+			password: '',
 		},
 	})
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
-		const priceToNumber = parseFloat(values.price)
-		mutate({ name: values.name, price: priceToNumber, image: values.image })
+		const { email, password } = values
+		mutate({ email, password })
 	}
 
 	if (isPending) {
@@ -46,42 +44,28 @@ const AddProductForm = () => {
 			<form onSubmit={form.handleSubmit(onSubmit)} className='space-y-8'>
 				<FormField
 					control={form.control}
-					name='name'
+					name='email'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Name</FormLabel>
+							<FormLabel>Email</FormLabel>
 							<FormControl>
-								<Input placeholder='Tomato...' {...field} />
+								<Input placeholder='...' {...field} />
 							</FormControl>
-							<FormDescription>What do you want to add?</FormDescription>
+							<FormDescription>Type here your email.</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
 				/>
 				<FormField
 					control={form.control}
-					name='price'
+					name='password'
 					render={({ field }) => (
 						<FormItem>
-							<FormLabel>Price</FormLabel>
+							<FormLabel>Password</FormLabel>
 							<FormControl>
-								<Input placeholder='2.99...' {...field} type='number' />
+								<Input placeholder='...' {...field} />
 							</FormControl>
-							<FormDescription>What is the price per kg?</FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
-				<FormField
-					control={form.control}
-					name='image'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Image URL</FormLabel>
-							<FormControl>
-								<Input placeholder='img url...' {...field} />
-							</FormControl>
-							<FormDescription>Type here URL image of the product.</FormDescription>
+							<FormDescription>Type here your password.</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}
@@ -92,4 +76,4 @@ const AddProductForm = () => {
 	)
 }
 
-export default AddProductForm
+export default LoginForm
