@@ -1,3 +1,4 @@
+'use client'
 import axios from 'axios'
 
 export const getUsers = async () => {
@@ -9,5 +10,7 @@ export const createUser = async ({ email, password }: { email: string; password:
 }
 
 export const loginUser = async ({ email, password }: { email: string; password: string }) => {
-    return await axios.post('http://localhost:3001/auth/login', { email, password })
+	const user = await axios.post('http://localhost:3001/auth/login', { email, password })
+	localStorage.setItem('accessToken', user.data.token)
+	return
 }

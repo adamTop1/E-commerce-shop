@@ -1,8 +1,9 @@
 import prisma from '../db'
 import bcrypt from 'bcrypt'
-import jwt from 'jsonwebtoken'
 import { Request, Response } from 'express'
 import { userRegistrationSchema } from '../utils/zodSchema'
+import { generateAccessToken, generateRefreshToken } from '../utils/generateToken'
+
 
 export const createUser = async (req: Request, res: Response) => {
 	const validate = userRegistrationSchema.parse(req.body)
@@ -26,18 +27,19 @@ export const loginUser = async (req: Request, res: Response) => {
 	})
 
 	let isPasswordValid
-	let token = null
 
 	if (user !== null) {
 		isPasswordValid = await bcrypt.compare(req.body.password, user.password)
 	}
 
 	if (isPasswordValid && user) {
-		token = jwt.sign({ id: user.id }, process.env.SECRET as string)
-		
+		const accessToken = generateAccessToken({ id: user.id })
+		const refreshToken = generateRefreshToken({ id: user.id })
+
+		res.cookie('refreshToken', refreshToken, { httpOnly: true })
+		res.json({ accessToken })
 	}
 	
-	res.status(200).json({ token })
 }
 
 export const getUser = async (req: Request, res: Response) => {
