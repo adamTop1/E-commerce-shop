@@ -3,17 +3,16 @@ import morgan from 'morgan'
 import cors from 'cors'
 import authRouter from './routes/auth'
 import productRouter from './routes/product'
-import authenticateToken from './middlewares/authenticateToken'
+import cookieParser from 'cookie-parser'
 
 const app = express()
 
-
-app.use(cors())
+app.use(cors({credentials: true, origin: 'http://localhost:3000'}))
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(cookieParser())
 
-
-app.use(authenticateToken, productRouter)
 app.use(authRouter)
+app.use(productRouter)
 
 export default app

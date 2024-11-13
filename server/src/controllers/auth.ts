@@ -39,8 +39,8 @@ export const loginUser = async (req: Request, res: Response) => {
 		res.cookie('refreshToken', refreshToken, { httpOnly: true })
 		res.json({ accessToken })
 	}
-	
 }
+
 
 export const getUser = async (req: Request, res: Response) => {
 	const user = await prisma.user.findUnique({
