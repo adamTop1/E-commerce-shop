@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -13,23 +7,83 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id           String   @id @default(cuid())
-  name         String
-  image        String?
-  price        Int      
-  users       User[]
+model User {
+  id       String  @id @default(cuid())
+  email    String  @unique
+  password String
+  role     Role    @default(CUSTOMER)
+  cart     Cart?
+  orders   Order[]
+
+  createdAt DateTime @default(now())
 }
 
-model User {
-  id       String   @id @default(cuid())
-  email    String   @unique
-  password String
-  products  Product[]
-  role     Role     @default(CUSTOMER)
+model Product {
+  id          String     @id @default(cuid())
+  name        String
+  description String?
+  image       String?
+  price       Int
+  stock       Int         
+  cartItems   CartItem[]
+
+  createdAt DateTime    @default(now())
+  OrderItem OrderItem[]
+}
+
+model Cart {
+  id     String     @id @default(cuid())
+  userId String     @unique
+  user   User       @relation(fields: [userId], references: [id])
+  items  CartItem[]
+
+  createdAt DateTime @default(now())
+}
+
+model CartItem {
+  id        String  @id @default(cuid())
+  cartId    String
+  cart      Cart    @relation(fields: [cartId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(1)
+
+  createdAt DateTime @default(now())
+
+  @@unique([cartId, productId])
+}
+
+model Order {
+  id          String      @id @default(cuid())
+  userId      String
+  user        User        @relation(fields: [userId], references: [id])
+  items       OrderItem[]
+  totalAmount Int
+  status      OrderStatus @default(PENDING)
+
+  createdAt DateTime @default(now())
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id])
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int     @default(1)
+
+  createdAt DateTime @default(now())
+
+  @@unique([orderId, productId])
 }
 
 enum Role {
   CUSTOMER
   ADMIN
+}
+
+enum OrderStatus {
+  PENDING
+  COMPLETED
+  CANCELED
 }

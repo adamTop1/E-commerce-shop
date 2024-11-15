@@ -20,7 +20,7 @@ const AddProductForm = () => {
 			message: 'Name must be at least 2 characters.',
 		}),
 		price: z.string(),
-		image: z.string(),
+		image: z.any().optional(),
 	})
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -72,20 +72,10 @@ const AddProductForm = () => {
 						</FormItem>
 					)}
 				/>
-				<FormField
-					control={form.control}
-					name='image'
-					render={({ field }) => (
-						<FormItem>
-							<FormLabel>Image URL</FormLabel>
-							<FormControl>
-								<Input placeholder='img url...' {...field} />
-							</FormControl>
-							<FormDescription>Type here URL image of the product.</FormDescription>
-							<FormMessage />
-						</FormItem>
-					)}
-				/>
+				<div className='flex flex-col'>
+					<label htmlFor='image'><FormLabel>Image</FormLabel></label>
+					<input type='file' {...form.register('image')} id='image'  className=''/>
+				</div>
 				<Button type='submit'>Submit</Button>
 			</form>
 		</Form>

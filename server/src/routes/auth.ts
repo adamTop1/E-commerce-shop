@@ -4,13 +4,13 @@ import { refreshToken } from '../utils/refreshToken'
 
 const authRouter = Router()
 
-authRouter.get('/auth', getUser)
+authRouter.get('/user', getUser)
 
 authRouter.post('/auth/create', createUser)
 
 authRouter.post('/auth/login', loginUser)
 
-authRouter.delete('/auth', deleteUser)
+authRouter.delete('/auth/delete', deleteUser)
 
 authRouter.post('/token', refreshToken)
 

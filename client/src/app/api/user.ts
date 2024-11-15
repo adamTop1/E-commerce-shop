@@ -1,7 +1,7 @@
 import api from './axiosApi'
 
 export const getUsers = async () => {
-	return await api.get('/auth')
+	return await api.get('/user', )
 }
 
 export const createUser = async ({ email, password }: { email: string; password: string }) => {
