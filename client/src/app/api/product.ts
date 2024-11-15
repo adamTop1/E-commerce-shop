@@ -5,6 +5,6 @@ export const getProducts = async () => {
   return await api.get("/product");
 };
 
-export const addProduct = async ({name, price, image}: productType) => {
-  return await api.post("/product", {name, price, image});
+export const addProduct = async ({name, price, image, stock}: productType) => {
+  return await api.post("/product", {name, price, image, stock});
 };

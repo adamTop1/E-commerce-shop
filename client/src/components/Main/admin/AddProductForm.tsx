@@ -12,7 +12,7 @@ import { productType } from '@/types/product'
 
 const AddProductForm = () => {
 	const { mutate, isPending } = useMutation({
-		mutationFn: ({ name, price, image }: productType) => addProduct({ name, price, image }),
+		mutationFn: ({ name, price, image, stock }: productType) => addProduct({ name, price, image, stock }),
 	})
 
 	const formSchema = z.object({
@@ -21,6 +21,7 @@ const AddProductForm = () => {
 		}),
 		price: z.string(),
 		image: z.any().optional(),
+		stock: z.string(),
 	})
 
 	const form = useForm<z.infer<typeof formSchema>>({
@@ -29,12 +30,14 @@ const AddProductForm = () => {
 			name: '',
 			price: '',
 			image: '',
+			stock: '',
 		},
 	})
 
 	function onSubmit(values: z.infer<typeof formSchema>) {
 		const priceToNumber = parseFloat(values.price)
-		mutate({ name: values.name, price: priceToNumber, image: values.image })
+		const stockToNumber = parseFloat(values.stock)
+		mutate({ name: values.name, price: priceToNumber, image: values.image, stock: stockToNumber })
 	}
 
 	if (isPending) {
@@ -68,6 +71,20 @@ const AddProductForm = () => {
 								<Input placeholder='2.99...' {...field} type='number' />
 							</FormControl>
 							<FormDescription>What is the price per kg?</FormDescription>
+							<FormMessage />
+						</FormItem>
+					)}
+				/>
+				<FormField
+					control={form.control}
+					name='stock'
+					render={({ field }) => (
+						<FormItem>
+							<FormLabel>Stock</FormLabel>
+							<FormControl>
+								<Input placeholder='...' {...field} type='number' />
+							</FormControl>
+							<FormDescription>Stock - kg</FormDescription>
 							<FormMessage />
 						</FormItem>
 					)}

@@ -12,6 +12,7 @@ export const createNewProduct = async (req: Request, res: Response) => {
 			name: req.body.name,
 			price: req.body.price,
 			image: req.body.image,
+			stock: req.body.stock,
 		},
 	})
 	res.json(product)

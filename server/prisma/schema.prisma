@@ -26,9 +26,9 @@ model Product {
   price       Int
   stock       Int         
   cartItems   CartItem[]
+  OrderItem OrderItem[]
 
   createdAt DateTime    @default(now())
-  OrderItem OrderItem[]
 }
 
 model Cart {
