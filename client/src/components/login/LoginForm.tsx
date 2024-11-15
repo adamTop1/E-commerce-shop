@@ -7,8 +7,8 @@ import { Button } from '@/components/ui/button'
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
 import { useMutation } from '@tanstack/react-query'
-import { loginUser } from '@/app/api/user'
 import { userType } from '@/types/user'
+import { loginUser } from '@/app/api/auth'
 
 const LoginForm = () => {
 	const { mutate, isPending } = useMutation({

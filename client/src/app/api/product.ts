@@ -8,3 +8,4 @@ export const getProducts = async () => {
 export const addProduct = async ({name, price, image, stock}: productType) => {
   return await api.post("/product", {name, price, image, stock});
 };
+

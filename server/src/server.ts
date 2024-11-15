@@ -4,6 +4,7 @@ import cors from 'cors'
 import authRouter from './routes/auth'
 import productRouter from './routes/product'
 import cookieParser from 'cookie-parser'
+import userRouter from './routes/user'
 
 const app = express()
 
@@ -14,5 +15,6 @@ app.use(cookieParser())
 
 app.use(authRouter)
 app.use(productRouter)
+app.use(userRouter)
 
 export default app

@@ -11,7 +11,7 @@ const Navigation = () => {
 					</Link>
 				</li>
 				<li>
-					<Link href='/products' className='px-6 py-2'>
+					<Link href='/profile' className='px-6 py-2'>
 						My profile
 					</Link>
 				</li>

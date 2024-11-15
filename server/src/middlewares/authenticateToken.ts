@@ -1,4 +1,3 @@
-import { Request, Response } from 'express'
 import { NextFunction } from 'express'
 import jwt from 'jsonwebtoken'
 
@@ -9,7 +8,7 @@ const authenticateToken = async (req: any, res: any, next: NextFunction) => {
 
     jwt.verify(token, process.env.ACCESS_TOKEN_SECRET as string, (err: any, user: any) => {
         if (err) return res.sendStatus(403);
-        req.user = user;
+        req.user = user.id;
         next();
     });
 }

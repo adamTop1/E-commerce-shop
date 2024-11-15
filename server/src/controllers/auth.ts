@@ -4,7 +4,6 @@ import { Request, Response } from 'express'
 import { userRegistrationSchema } from '../utils/zodSchema'
 import { generateAccessToken, generateRefreshToken } from '../utils/generateToken'
 
-
 export const createUser = async (req: Request, res: Response) => {
 	const validate = userRegistrationSchema.parse(req.body)
 
@@ -39,23 +38,4 @@ export const loginUser = async (req: Request, res: Response) => {
 		res.cookie('refreshToken', refreshToken, { httpOnly: true })
 		res.json({ accessToken })
 	}
-}
-
-
-export const getUser = async (req: Request, res: Response) => {
-	const user = await prisma.user.findUnique({
-		where: {
-			id: req.body.id,
-		},
-	})
-	res.json(user)
-}
-
-export const deleteUser = async (req: Request, res: Response) => {
-	const user = await prisma.user.delete({
-		where: {
-			id: req.body.id,
-		},
-	})
-	res.json(user)
 }
