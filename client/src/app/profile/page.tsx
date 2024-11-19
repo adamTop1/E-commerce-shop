@@ -10,7 +10,6 @@ const ProfilePage = () => {
 		queryKey: ['user'],
 	})
 
-  console.log(user);
 
   if (user == null || isPending) {
     return <h1>Loading</h1>

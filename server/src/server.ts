@@ -5,6 +5,7 @@ import authRouter from './routes/auth'
 import productRouter from './routes/product'
 import cookieParser from 'cookie-parser'
 import userRouter from './routes/user'
+import cartRouter from './routes/cart'
 
 const app = express()
 
@@ -16,5 +17,6 @@ app.use(cookieParser())
 app.use(authRouter)
 app.use(productRouter)
 app.use(userRouter)
+app.use(cartRouter)
 
 export default app

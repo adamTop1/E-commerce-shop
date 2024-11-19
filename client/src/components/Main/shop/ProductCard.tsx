@@ -1,23 +1,30 @@
-import { Button } from '@/components/ui/button'
+'use client'
+
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from '@/components/ui/card'
 import React from 'react'
 // import Image from 'next/image'
 import { Input } from '@/components/ui/input'
+import { cartItemType, productType } from '@/types/product'
+import { Button } from '@/components/ui/button'
+import { useMutation } from '@tanstack/react-query'
+import { addToCart } from '@/app/api/cart'
 
-interface ProductCardProps {
-	image?: string
-	title: string
-	price: number
-}
+const ProductCard = ({ name, price, id }: productType) => {
+	const { mutate } = useMutation({
+		mutationFn: ({ productId, quantity }: cartItemType) => addToCart({ productId, quantity }),
+	})
 
-const ProductCard = ({ title, price }: ProductCardProps) => {
+	const addToCartHandler = () => {
+		mutate({ productId: id, quantity: 1 })
+	}
+
 	return (
 		<Card className='overflow-hidden'>
 			<div className='flex items-center justify-center rounded bg-slate-50'>
 				{/* <Image src={image} alt='vegetables' width={300} height={300} /> */}
 			</div>
 			<CardHeader>
-				<CardTitle>{title}</CardTitle>
+				<CardTitle>{name}</CardTitle>
 				<CardDescription>Card Description</CardDescription>
 			</CardHeader>
 			<CardContent>
@@ -28,7 +35,7 @@ const ProductCard = ({ title, price }: ProductCardProps) => {
 					<Input type='number' placeholder='1' className='w-1/4' />
 					<p>kg</p>
 				</div>
-				<Button>Add to cart</Button>
+				<Button onClick={addToCartHandler}>Add to cart</Button>
 			</CardFooter>
 		</Card>
 	)

@@ -1,7 +1,13 @@
 export interface productType {
-    id?: number;
-    name: string;
-    price: number;
-    image: string;
-    stock: number;
+	id: string
+	name: string
+	price: number
+	image?: string
+	description?: string
+	stock: number
+}
+
+export interface cartItemType {
+	productId: string,
+	quantity: number
 }
