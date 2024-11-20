@@ -15,6 +15,17 @@ export const getAllCartProducts = async (req: any, res: any) => {
 	return res.json(cart).status(200)
 }
 
+export const updateCartItem = async (req: any, res: any) => {
+	const { quantity, cartItemId } = req.body
+
+	const cartItem = await prisma.cartItem.update({
+		where: { id: cartItemId},
+		data: { quantity },
+	})
+
+	return res.json(cartItem).status(200)
+}
+
 export const getCartItem = async (req: any, res: any) => {
 	const cartItem = await prisma.cartItem.findFirst({
 		where: {

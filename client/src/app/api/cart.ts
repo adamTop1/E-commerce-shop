@@ -8,3 +8,7 @@ export const getCart = async () => {
 export const addToCart = async ({ productId, quantity }: cartItemType) => {
 	return await api.post('/cart', { productId, quantity })
 }
+
+export const updateCartItem = async ({ quantity, cartItemId }: { quantity: number, cartItemId: string }) => {
+	return await api.put('/cart', { quantity, cartItemId })
+}
