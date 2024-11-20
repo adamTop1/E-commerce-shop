@@ -17,18 +17,18 @@ const Checkout = () => {
 				</div>
 				<div className='flex justify-between gap-6'>
 					<p>Shipping cost</p>
-					<p>50.84$</p>
+					<p>9.99$</p>
 				</div>
 				<div className='flex justify-between gap-6'>
 					<p>Coupon</p>
-					<p>50.84$</p>
+					<p>0$</p>
 				</div>
 
 				<div className='h-[1px] bg-gray-500'></div>
 
 				<div className='flex justify-between gap-6 text-xl font-bold uppercase '>
 					<p>total</p>
-					<p>520.84$</p>
+					<p>60.83$</p>
 				</div>
 
 				<Button className='px-8 py-5 mx-auto mt-5 uppercase bg-green-600 hover:bg-green-700'>checkout</Button>

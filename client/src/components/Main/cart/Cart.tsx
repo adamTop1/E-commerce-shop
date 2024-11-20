@@ -25,10 +25,9 @@ const Cart = () => {
 				</div>
 			</div>
 			<div className='my-4 border-b'></div>
-			{cartItemsArr?.map((item) => (
+			{cartItemsArr?.map((item: { productId: string; id: string; product: { name: string; price: number }; quantity: number }) => (
 				<Product key={item.productId} cartItemId={item.id} name={item.product.name} price={item.product.price} quantity={item.quantity}  />
 			))}
-			
 			<Checkout />
 		</div>
 	)
