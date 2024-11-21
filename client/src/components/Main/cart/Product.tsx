@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import QuantityInput from './QuantityInput'
 
 export interface IcartItem {
@@ -16,8 +15,8 @@ const Product = ({ name, price, quantity, cartItemId }: IcartItem) => {
 		<>
 			<div className='grid grid-cols-2 my-8'>
 				<div className='flex items-center gap-5'>
-					<Image src='/vegetables-main.svg' alt='vegetables' width={100} height={100} />
-					<p className='mx-8 text-xl'>{name}</p>
+					{/* <Image src='/vegetables-main.svg' alt='vegetables' width={100} height={100} className='mr-8' /> */}
+					<p className='text-xl'>{name}</p>
 				</div>
 				<div className='flex items-center justify-around '>
 					<p>{price}$</p>
