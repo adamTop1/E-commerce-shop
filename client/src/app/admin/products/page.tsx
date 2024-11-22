@@ -3,15 +3,10 @@
 import { getProducts } from '@/app/api/product'
 import { useQuery } from '@tanstack/react-query'
 import { Table, TableHeader, TableRow, TableHead, TableBody, TableCell } from '@/components/ui/table'
-import {
-	DropdownMenu,
-	DropdownMenuTrigger,
-	DropdownMenuContent,
-	DropdownMenuItem,
-	DropdownMenuSeparator,
-} from '@radix-ui/react-dropdown-menu'
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { MoreVertical } from 'lucide-react'
 import { productType } from '@/types/product'
+import EditProduct from './EditProduct'
 
 export default function DemoPage() {
 	const {
@@ -52,16 +47,7 @@ export default function DemoPage() {
 												<MoreVertical className='w-6 h-6 text-gray-600 cursor-pointer hover:text-gray-800' />
 											</DropdownMenuTrigger>
 											<DropdownMenuContent className='py-1 mt-2 bg-white border border-gray-200 rounded-md shadow-lg'>
-												<DropdownMenuItem className='px-4 py-2 text-sm text-gray-800 cursor-pointer hover:bg-gray-100'>
-													Edit Price
-												</DropdownMenuItem>
-												<DropdownMenuSeparator />
-												<DropdownMenuItem className='px-4 py-2 text-sm text-gray-800 cursor-pointer hover:bg-gray-100'>
-													Edit Name
-												</DropdownMenuItem>
-												<DropdownMenuItem className='px-4 py-2 text-sm text-gray-800 cursor-pointer hover:bg-gray-100'>
-													Edit Stock
-												</DropdownMenuItem>
+												<EditProduct id={product.id} name={product.name} price={product.price} stock={product.stock} />
 												<DropdownMenuItem className='px-4 py-2 text-sm text-red-800 cursor-pointer hover:bg-red-100'>
 													Delete Item
 												</DropdownMenuItem>
