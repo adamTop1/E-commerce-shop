@@ -1,63 +1,98 @@
-import prisma from '../db'
-import { CartItemRequestBody } from '../utils/zodSchema'
+import { Request, Response } from 'express';
+import prisma from '../db';
+import { CartItemRequestBody } from '../utils/zodSchema';
 
-export const getAllCartProducts = async (req: any, res: any) => {
-	const cart = await prisma.cart.findMany({
-		where: { userId: req.userId },
-		include: {
-			items: {
-				include: {
-					product: true,
+export const getAllCartProducts = async (req: Request, res: Response) => {
+	try {
+		const userId = req.userId;
+
+		if (!userId) {
+			return res.status(400).json({ error: 'User ID is required' });
+		}
+
+		const cart = await prisma.cart.findMany({
+			where: { userId },
+			include: {
+				items: {
+					include: {
+						product: true,
+					},
 				},
 			},
-		},
-	})
-	return res.json(cart).status(200)
-}
+		});
 
-export const updateCartItem = async (req: any, res: any) => {
-	const { quantity, cartItemId } = req.body
+		return res.status(200).json(cart);
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ error: 'Failed to retrieve cart products' });
+	}
+};
 
-	const cartItem = await prisma.cartItem.update({
-		where: { id: cartItemId},
-		data: { quantity },
-	})
-
-	return res.json(cartItem).status(200)
-}
-
-export const getCartItem = async (req: any, res: any) => {
-	const cartItem = await prisma.cartItem.findFirst({
-		where: {
-			id: req.body.id,
-		},
-	})
-	return res.json(cartItem).status(200)
-}
-
-export const addToCart = async (req: any, res: any) => {
+export const updateCartItem = async (req: Request, res: Response) => {
 	try {
-		const userId = req.userId
-		const { productId, quantity }: CartItemRequestBody = req.body
-		if (!productId || !userId || !quantity) {
-			return res.status(400).json({ error: 'productId, and quantity are required' })
+		const { quantity, cartItemId } = req.body;
+
+		if (!quantity || !cartItemId) {
+			return res.status(400).json({ error: 'Quantity and cartItemId are required' });
+		}
+
+		const cartItem = await prisma.cartItem.update({
+			where: { id: cartItemId },
+			data: { quantity },
+		});
+
+		return res.status(200).json(cartItem);
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ error: 'Failed to update cart item' });
+	}
+};
+
+export const getCartItem = async (req: Request, res: Response) => {
+	try {
+		const { id } = req.body;
+
+		if (!id) {
+			return res.status(400).json({ error: 'Cart item ID is required' });
+		}
+
+		const cartItem = await prisma.cartItem.findFirst({
+			where: { id },
+		});
+
+		if (!cartItem) {
+			return res.status(404).json({ error: 'Cart item not found' });
+		}
+
+		return res.status(200).json(cartItem);
+	} catch (error) {
+		console.error(error);
+		return res.status(500).json({ error: 'Failed to retrieve cart item' });
+	}
+};
+
+export const addToCart = async (req: Request, res: Response) => {
+	try {
+		const userId = req.userId;
+		const { productId, quantity }: CartItemRequestBody = req.body;
+
+		if (!userId || !productId || !quantity) {
+			return res.status(400).json({ error: 'User ID, product ID, and quantity are required' });
 		}
 
 		const existingCartItem = await prisma.cartItem.findFirst({
 			where: {
 				productId,
-				cart: {
-					userId,
-				},
+				cart: { userId },
 			},
-		})
+		});
 
-		let cartItem
+		let cartItem;
 		if (existingCartItem) {
 			cartItem = await prisma.cartItem.update({
 				where: { id: existingCartItem.id },
 				data: { quantity: existingCartItem.quantity + quantity },
-			})
+			});
 		} else {
 			cartItem = await prisma.cartItem.create({
 				data: {
@@ -70,12 +105,12 @@ export const addToCart = async (req: any, res: any) => {
 						},
 					},
 				},
-			})
+			});
 		}
 
-		return res.json(cartItem).status(201)
+		return res.status(201).json(cartItem);
 	} catch (error) {
-		console.error(error)
-		return res.status(500).json({ error: 'An error occurred while adding to cart' })
+		console.error(error);
+		return res.status(500).json({ error: 'An error occurred while adding to cart' });
 	}
-}
+};

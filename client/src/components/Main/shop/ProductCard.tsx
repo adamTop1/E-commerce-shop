@@ -15,7 +15,7 @@ const ProductCard = ({ name, price, id }: productType) => {
 	})
 
 	const addToCartHandler = () => {
-		mutate({ productId: id, quantity: 1 })
+		mutate({ productId: id!, quantity: 1 })
 	}
 
 	return (
