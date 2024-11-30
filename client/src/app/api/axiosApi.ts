@@ -13,6 +13,7 @@ export const api = axios.create({
 api.interceptors.request.use(
 	request => {
 		const accessToken = localStorage.getItem('accessToken')
+		if ( !accessToken) return request
 		if (accessToken) {
 			request.headers['Authorization'] = `Bearer ${accessToken}`
 		}
@@ -37,4 +38,7 @@ api.interceptors.response.use(
 		return Promise.reject(error)
 	}
 )
+
 export default api
+
+

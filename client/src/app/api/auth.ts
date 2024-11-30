@@ -9,3 +9,8 @@ export const loginUser = async ({ email, password }: { email: string; password: 
 	localStorage.setItem('accessToken', user.data.accessToken)
 	return
 }
+
+export const logoutUser = async () => {
+	localStorage.removeItem('accessToken')
+	return
+}
